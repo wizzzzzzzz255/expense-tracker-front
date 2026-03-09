@@ -109,7 +109,7 @@ export default function Login() {
                 <option value="JPY">JPY (¥)</option>
                 <option value="INR">INR (₹)</option>
                 <option value="CAD">CAD ($)</option>
-                <option value="AUD">AUD ($)</option>
+                <option value="BDT">BDT (৳)</option>
               </select>
             </div>
           )}
@@ -140,3 +140,4 @@ export default function Login() {
     </div>
   );
 }
+
