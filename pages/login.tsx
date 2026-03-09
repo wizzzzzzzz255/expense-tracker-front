@@ -34,18 +34,18 @@ export default function Login() {
       }
     } catch (err: any) {
       console.error("Auth failed", err);
-      
+
       // Handle array of Pydantic validation errors (e.g., password complexity)
       if (err.response?.status === 422 && Array.isArray(err.response?.data?.detail)) {
         const errorMsg = err.response.data.detail[0]?.msg || "Validation error";
         setError(errorMsg);
-      } 
+      }
       // Handle standard string errors (like "Email already registered")
       else if (err.response?.data?.detail) {
         setError(String(err.response.data.detail));
-      } 
+      }
       else {
-        setError("An error occurred during authentication.");
+        setError(err.message || "An error occurred during authentication.");
       }
     } finally {
       setLoading(false);
@@ -73,24 +73,24 @@ export default function Login() {
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
             <label className="text-sm font-medium text-textMuted">Email</label>
-            <input 
+            <input
               className="w-full p-4 rounded-xl bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary transition-all outline-none"
               type="email"
-              value={email} 
-              onChange={e => setEmail(e.target.value)} 
-              placeholder="you@example.com" 
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              placeholder="you@example.com"
               required
             />
           </div>
 
           <div className="flex flex-col gap-1.5">
             <label className="text-sm font-medium text-textMuted">Password</label>
-            <input 
+            <input
               className="w-full p-4 rounded-xl bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary transition-all outline-none"
-              type="password" 
-              value={password} 
-              onChange={e => setPassword(e.target.value)} 
-              placeholder="••••••••" 
+              type="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              placeholder="••••••••"
               required
             />
           </div>
@@ -98,7 +98,7 @@ export default function Login() {
           {!isLogin && (
             <div className="flex flex-col gap-1.5">
               <label className="text-sm font-medium text-textMuted">Preferred Currency</label>
-              <select 
+              <select
                 className="w-full p-4 rounded-xl bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary transition-all outline-none appearance-none"
                 value={currency}
                 onChange={e => setCurrency(e.target.value)}
@@ -114,7 +114,7 @@ export default function Login() {
             </div>
           )}
 
-          <button 
+          <button
             type="submit"
             disabled={loading}
             className={`w-full mt-4 bg-primary hover:bg-primaryHover text-white font-medium py-4 px-6 rounded-xl transition-all shadow-lg shadow-primary/20 hover:shadow-primary/40 active:scale-[0.98] ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
@@ -125,7 +125,7 @@ export default function Login() {
 
         <div className="mt-8 text-center text-sm text-textMuted">
           {isLogin ? "Don't have an account? " : "Already have an account? "}
-          <button 
+          <button
             type="button"
             className="text-primary hover:text-primaryHover font-medium transition-colors outline-none"
             onClick={() => {
@@ -140,4 +140,3 @@ export default function Login() {
     </div>
   );
 }
-
