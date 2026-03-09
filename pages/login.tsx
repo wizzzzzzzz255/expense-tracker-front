@@ -34,7 +34,19 @@ export default function Login() {
       }
     } catch (err: any) {
       console.error("Auth failed", err);
-      setError(err.response?.data?.detail || "An error occurred");
+      
+      // Handle array of Pydantic validation errors (e.g., password complexity)
+      if (err.response?.status === 422 && Array.isArray(err.response?.data?.detail)) {
+        const errorMsg = err.response.data.detail[0]?.msg || "Validation error";
+        setError(errorMsg);
+      } 
+      // Handle standard string errors (like "Email already registered")
+      else if (err.response?.data?.detail) {
+        setError(String(err.response.data.detail));
+      } 
+      else {
+        setError("An error occurred during authentication.");
+      }
     } finally {
       setLoading(false);
     }
